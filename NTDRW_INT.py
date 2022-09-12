@@ -21,6 +21,10 @@ import wget
 
 
 BASE_FOLDER = "PRIMA_IMAGES"
+
+if os.path.exists(BASE_FOLDER) == False:
+    os.mkdir(BASE_FOLDER)
+
 IMG_LIST = os.listdir(BASE_FOLDER)
 print(len(IMG_LIST))
 
