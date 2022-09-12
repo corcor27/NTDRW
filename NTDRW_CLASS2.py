@@ -39,8 +39,8 @@ class Document_Analysis():
         self.Img_list, self.Root_folder, self.Document_folder, self.Image_files_folder, self.Image_details_folder, self.Masks_folder, self.Samples_folder = self.Generate_Copy()
         self.IMG_PATH = self.Analyse_document()
         #self.IMG_PATH = os.path.join(self.Image_files_folder, self.Img_list[0])
-        #self.lang = self.Check_welsh()
-        #if self.lang == "cy":
+        self.lang = self.Check_welsh()
+        if self.lang == "cy":
             #self.Bing()
         self.Text_summary()
         self.word_understanding()
