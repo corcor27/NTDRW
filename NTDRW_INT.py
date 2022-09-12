@@ -11,7 +11,7 @@ import PIL
 import os
 from pdf2image import pdfinfo_from_path,convert_from_path
 
-from NTDRW_CLASS2 import Document_Analysis
+from NTDRW_CLASS import Document_Analysis
 from models import dice_loss, selective_unet, dice_coeff
 from skimage.draw import ellipse
 from skimage.measure import label, regionprops, regionprops_table
