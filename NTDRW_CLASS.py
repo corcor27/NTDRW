@@ -28,6 +28,8 @@ import ast
 from transformers import pipeline
 from transformers import DetrFeatureExtractor, DetrForSegmentation
 import torch
+import re
+import sys
 
 
 class Document_Analysis():
@@ -116,7 +118,9 @@ class Document_Analysis():
         processor = TrOCRProcessor.from_pretrained('microsoft/trocr-base-handwritten')
         model = VisionEncoderDecoderModel.from_pretrained('microsoft/trocr-base-handwritten')
         if ".tif" in IMG_PATH:
-            IMG_PATH = IMG_PATH.replace("tif", "png")
+            #IMG_PATH = IMG_PATH.replace("tif", "png")
+            #deal with .tif being elsewhere in the filename
+            IMG_PATH = re.sub(r'(.*)tif',r'\1png', IMG_PATH)
             cv2.imwrite(IMG_PATH, img2)
         image64 = Image.open(IMG_PATH).convert('RGB')
         image68 = ImageDraw.Draw(image64)
@@ -205,8 +209,8 @@ class Document_Analysis():
         
         
     def Word_Extraction(self, IMG_PATH, ty):
-        IMG_PATH2 = IMG_PATH.replace("." + ty, " ")
-        IMG_PATH2 = IMG_PATH2 + "_gray" + "." + ty
+        #IMG_PATH2 = IMG_PATH.replace("." + ty, " ")
+        IMG_PATH2 = IMG_PATH + "_gray" + "." + ty
         print(IMG_PATH2)
         gray_img = cv2.imread(IMG_PATH, 0)
         color_img = cv2.imread(IMG_PATH)
@@ -407,8 +411,11 @@ class Document_Analysis():
             for ty in img_types:
                 if ty in self.Doc_name:
                     SECOND_NAME = self.Doc_name.replace(ty, "")
-                    File_folder = os.path.join(Doc_convert, self.Doc_name.replace(ty, ""))
+                    #File_folder = os.path.join(Doc_convert, self.Doc_name.replace(ty, ""))
+                    #keep the file extension in the dir name
+                    File_folder = os.path.join(Doc_convert, self.Doc_name)
                     if os.path.exists(File_folder) == False:
+                        print("creating dir",File_folder)
                         os.mkdir(File_folder)
                     IMAGE_SAVE = os.path.join(File_folder,  "Img_Files")
                     if os.path.exists(IMAGE_SAVE) == False:
@@ -451,3 +458,14 @@ class Document_Analysis():
     
         
     
+if __name__ == '__main__':
+    BASE_FOLDER = "PRIMA_IMAGES"
+
+    if os.path.exists(BASE_FOLDER) == False:
+        os.mkdir(BASE_FOLDER)
+
+    if len(sys.argv) != 2:
+        print("Usage: NTDRW_CLASS.py <filename>")
+        sys.exit(1)
+
+    start = Document_Analysis(sys.argv[1].replace(BASE_FOLDER+"/",""), True, BASE_FOLDER)

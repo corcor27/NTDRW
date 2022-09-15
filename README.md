@@ -6,4 +6,4 @@ NTDRW_CLASS2.py contains the class function that does all the system analysis. S
 
 model.py just contains all the tensorflow models that I have coded.
 
-NDTRW.yml is the enivroment file needed to run the system.
+NTDRW.yml is the enivroment file needed to run the system.
