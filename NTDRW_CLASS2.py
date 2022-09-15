@@ -52,7 +52,7 @@ class Document_Analysis():
     def Check_welsh(self):
         for item in self.Img_list:
             strip_ext = os.path.splitext(item)[0]
-            Text_file_path = os.path.join(self.Image_details_folder, "text_details" + strip_ext + ".txt")
+            Text_file_path = os.path.join(self.Image_details_folder, "text_details.txt")
             with open(Text_file_path) as f:
                 data = f.read()
             data = ''.join(data)
@@ -68,7 +68,7 @@ class Document_Analysis():
     def Bing(self):
         for item in self.Img_list:
             strip_ext = os.path.splitext(item)[0]
-            Text_file_path = os.path.join(self.Image_details_folder, "text_details" + strip_ext + ".txt")
+            Text_file_path = os.path.join(self.Image_details_folder, "text_details.txt")
             with open(Text_file_path) as f:
                 data = f.read()
             print(data)
@@ -76,7 +76,7 @@ class Document_Analysis():
                 translator = Translator()
                 translation = translator.translate(data, dest='en')
                 print(translation.text)
-                tran_out = os.path.join(self.Image_details_folder, "text_details" + strip_ext + ".txt")
+                tran_out = os.path.join(self.Image_details_folder, "text_details.txt")
                 os.remove(Text_file_path)
                 f = open(tran_out,"w")
                 f.write( str(translation.text) )
@@ -143,7 +143,7 @@ class Document_Analysis():
     def Text_summary(self):
         for item in self.Img_list:
             strip_ext = os.path.splitext(item)[0]
-            Text_file_path = os.path.join(self.Image_details_folder, "text_details" + strip_ext + ".txt")
+            Text_file_path = os.path.join(self.Image_details_folder, "text_details.txt")
             with open(Text_file_path) as f:
                 data = f.read()
             #print(data)
@@ -153,20 +153,20 @@ class Document_Analysis():
 
                 summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
                 OUTPUT = summarizer(data, max_length=200, min_length=10, do_sample=False)
-                OUT2 = os.path.join(self.Image_details_folder, "Summary" + strip_ext + ".txt")
+                OUT2 = os.path.join(self.Image_details_folder, "Summary.txt")
                 print(OUT2)
                 #analysis_text = self.word_understanding(Text_dic)
                 # open file for writing
                 print(OUTPUT)
                 f = open(OUT2,"w")
-                f.write(str(OUTPUT) )
+                f.write(str(OUTPUT[0]['summary_text']))
                 f.close()
             return 0
     
     def word_understanding(self):
         for item in self.Img_list:
             strip_ext = os.path.splitext(item)[0]
-            Text_file_path = os.path.join(self.Image_details_folder, "text_details" + strip_ext + ".txt")
+            Text_file_path = os.path.join(self.Image_details_folder, "text_details.txt")
             with open(Text_file_path) as f:
                 data = f.read()
             Text = data
@@ -413,9 +413,9 @@ class Document_Analysis():
             cv2.imwrite(IMG_MASK_PATH, img_mask)
             cv2.imwrite(TEXT_MASK_PATH, word_mask)
             Img_dic = self.Image_analysis(img_positions,IMG_PATH)
-            Text_details_path = os.path.join(self.Image_details_folder, "text_detail_dic" + strip_ext + ".txt")
-            Img_details_path = os.path.join(self.Image_details_folder, "img_detail_dic" + strip_ext + ".txt")
-            Text_details_path2 = os.path.join(self.Image_details_folder, "text_details" + strip_ext + ".txt")
+            Text_details_path = os.path.join(self.Image_details_folder, "text_detail_dic.txt")
+            Img_details_path = os.path.join(self.Image_details_folder, "img_detail_dic.txt")
+            Text_details_path2 = os.path.join(self.Image_details_folder, "text_details.txt")
             
             f = open(Text_details_path,"w")
             f.write(str(Text_dic))
@@ -441,7 +441,7 @@ class Document_Analysis():
         return IMG_PATH
 
 if __name__ == '__main__':
-    BASE_FOLDER = "PRIMA_IMAGES"
+    BASE_FOLDER = "IMG"
 
     if os.path.exists(BASE_FOLDER) == False:
         os.mkdir(BASE_FOLDER)
