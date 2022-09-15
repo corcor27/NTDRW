@@ -29,6 +29,7 @@ from transformers import pipeline
 from transformers import DetrFeatureExtractor, DetrForSegmentation
 import torch
 from googletrans import Translator
+import sys
 
 class Document_Analysis():
     def __init__(self, Doc_name, OLD, folder):
@@ -41,6 +42,7 @@ class Document_Analysis():
         #self.IMG_PATH = os.path.join(self.Image_files_folder, self.Img_list[0])
         self.lang = self.Check_welsh()
         if self.lang == "cy":
+            None
             #self.Bing()
         self.Text_summary()
         self.word_understanding()
@@ -437,4 +439,15 @@ class Document_Analysis():
             
                     
         return IMG_PATH
-    
+
+if __name__ == '__main__':
+    BASE_FOLDER = "PRIMA_IMAGES"
+
+    if os.path.exists(BASE_FOLDER) == False:
+        os.mkdir(BASE_FOLDER)
+
+    if len(sys.argv) != 2:
+        print("Usage: NTDRW_CLASS.py <filename>")
+        sys.exit(1)
+
+    start = Document_Analysis(sys.argv[1].replace(BASE_FOLDER+"/",""), True, BASE_FOLDER)
