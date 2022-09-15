@@ -370,7 +370,7 @@ class Document_Analysis():
         Doc_convert = "Doc_analysis"
         if os.path.exists(Doc_convert) == False:
             os.mkdir(Doc_convert)
-        File_folder = os.path.join(Doc_convert, os.path.splitext(self.Doc_name)[0])
+        File_folder = os.path.join(Doc_convert, self.Doc_name)
         if os.path.exists(File_folder) == False:
             os.mkdir(File_folder)
         IMAGE_SAVE = os.path.join(File_folder,  "Img_Files")
